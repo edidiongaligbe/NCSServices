@@ -1,5 +1,6 @@
 const express = require("express");
 app = express();
+var nodemailer = require('nodemailer');
 const MongoClient = require("mongodb").MongoClient;
 const client = new MongoClient(
   "mongodb+srv://eddy:eddy123@atmlocations-puah7.mongodb.net/",
@@ -62,6 +63,37 @@ app.post("/api/validateTIN/:TIN", (req, res) => {
       );
     });
     });
+
+  });
+
+
+  //Send Mail
+  app.post("/api/sendpaar", (req, res) => {
+
+    let PAARStatus = req.body.paar;
+    let cEmail = req.body.cemail;
+    
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+             user: 'eddyblog19@gmail.com',
+             pass: 'ek@vava123'
+         }
+     });
+
+     const mailOptions = {
+      from: 'eddyblog19@gmail.com', // sender address
+      to: cEmail, // list of receivers
+      subject: 'PAAR Status', // Subject line
+      html: `<p>${PAARStatus}</p>`// plain text body
+    };
+
+    transporter.sendMail(mailOptions, function (err, info) {
+      if(err)
+      res.send(err.message);
+      else
+      res.send("Successful");
+   });
 
   });
 

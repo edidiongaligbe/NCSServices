@@ -1,11 +1,14 @@
 const express = require("express");
 app = express();
-var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 const MongoClient = require("mongodb").MongoClient;
 const client = new MongoClient(
   "mongodb+srv://eddy:eddy123@atmlocations-puah7.mongodb.net/",
   { useNewUrlParser: true }
 );
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+
 
 port = process.env.PORT || 3000;
 app.use(express.json());
@@ -73,48 +76,15 @@ app.post("/api/validateTIN/:TIN", (req, res) => {
     let PAARStatus = req.body.paar;
     let cEmail = req.body.cemail;
     
-    var request = sg.emptyRequest({
-      method: 'POST',
-      path: '/v3/mail/send',
-      body: {
-        personalizations: [
-          {
-            to: [
-              {
-                email: cEmail,
-              },
-            ],
-            subject: 'PAAR Status',
-          },
-        ],
-        from: {
-          email: 'edidiong@redpagesconsulting.com',
-        },
-        content: [
-          {
-            type: 'text/plain',
-            value: PAARStatus,
-          },
-        ],
-      },
-    });
+    const msg = {
+      to: cEmail,
+      from: 'eddyblog19@gmail.com.com',
+      subject: 'PAAR Status',
+      text: 'and easy to do anywhere, even with Node.js',
+      html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+    };
+    sgMail.send(msg);
     
-    //With promise
-sg.API(request)
-.then(response => {
-  response.send("It worked.")
-  console.log(response.statusCode);
-  console.log(response.body);
-  console.log(response.headers);
-})
-.catch(error => {
-  //error is an instance of SendGridError
-  //The full response is attached to error.response
-  console.log(error.response.statusCode);
-});
-
-    
-
   });
 
   //start our server

@@ -90,7 +90,7 @@ app.use(function(req, res, next) {
   .then(items => {
 
     if (!items) {
-      res.send( `No info.` )
+      res.send( `No record found for the details you supplied.` )
     } else {
 
       let description = `This is the result of the VIN Verification \r\n

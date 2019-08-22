@@ -54,11 +54,16 @@ app.post("/api/validateTIN/:TIN", (req, res) => {
     const collection = client.db("NCS").collection("Importers");
     collection.findOne({ TIN: tinNo })
     .then(items => {
+
+      let tinStatus = items.TIN_Status;
       if (!items) {
         res.send( `Not Registered` )
+      } else if (tinStatus === "Not Registered" ) {
+        res.send( tinStatus )
       } else {
         res.send(items.Email)
       }
+
     })
     .catch(err => {
       res.send(

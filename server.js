@@ -84,6 +84,8 @@ app.post("/api/validateTIN/:TIN", (req, res) => {
     html: `<p>The result of your PAAR query is: <strong>${PAARStatus}</strong></p><br /><p>Thank you for using our service. We are here to serve you better.</p> `,
     };
     sgMail.send(msg);
+
+    res.send(`Successful`);
     
   });
 

@@ -41,7 +41,7 @@ app.use(function(req, res, next) {
   });
 
   //Validate TIN
-app.post("/api/validateTIN/:TIN", (req, res) => {
+  app.post("/api/validateTIN/:TIN", (req, res) => {
     
     client.connect(err => {
       if (err) {
@@ -74,6 +74,67 @@ app.post("/api/validateTIN/:TIN", (req, res) => {
 
   });
 
+  //Before 2017
+ app.post("/api/before2017/:cno", (req, res) => {
+    
+  client.connect(err => {
+    if (err) {
+      res.send(err.message);
+      return;
+    }
+
+    let CNo = req.params.cno;
+
+  const collection = client.db("NCS").collection("Before2017");
+  collection.findOne({ CNumber: CNo })
+  .then(items => {
+
+    if (!items) {
+      res.send( `No info.` )
+    } else {
+      res.send(items)
+    }
+
+  })
+  .catch(err => {
+    res.send(
+      `Unable to query for VIN below 2017.`
+    );
+  });
+  });
+
+ });
+
+ //2017 and above
+ app.post("/api/2017andAbove/:VIN", (req, res) => {
+    
+  client.connect(err => {
+    if (err) {
+      res.send(err.message);
+      return;
+    }
+
+    let vin = req.params.VIN;
+
+  const collection = client.db("NCS").collection("2017AndBeyond");
+  collection.findOne({ VIN: vin })
+  .then(items => {
+
+    if (!items) {
+      res.send( `No info.` )
+    } else {
+      res.send(items)
+    }
+
+  })
+  .catch(err => {
+    res.send(
+      `Unable to query for VIN 2017 and above.`
+    );
+  });
+  });
+
+ });
 
   //Send Mail
   app.post("/api/sendpaar", (req, res) => {

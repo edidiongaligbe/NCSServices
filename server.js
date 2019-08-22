@@ -92,7 +92,12 @@ app.use(function(req, res, next) {
     if (!items) {
       res.send( `No info.` )
     } else {
-      res.send(items)
+
+      let description = `This is the result of the VIN Verification \r\n
+                            Status: ${items.Status}  \r\n
+                            Box 31: ${items.Box31}  \r\n
+                            For more enquiry, kindly visit a Nigerian Custom Service office closest to you.`;
+      res.send(description)
     }
 
   })

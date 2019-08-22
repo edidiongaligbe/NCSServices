@@ -1,6 +1,6 @@
 const express = require("express");
 app = express();
-var nodemailer = require('nodemailer');
+var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 const MongoClient = require("mongodb").MongoClient;
 const client = new MongoClient(
   "mongodb+srv://eddy:eddy123@atmlocations-puah7.mongodb.net/",
@@ -73,27 +73,46 @@ app.post("/api/validateTIN/:TIN", (req, res) => {
     let PAARStatus = req.body.paar;
     let cEmail = req.body.cemail;
     
-    var transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-             user: 'eddyblog19@gmail.com',
-             pass: 'ek@vava123'
-         }
-     });
+    var request = sg.emptyRequest({
+      method: 'POST',
+      path: '/v3/mail/send',
+      body: {
+        personalizations: [
+          {
+            to: [
+              {
+                email: cEmail,
+              },
+            ],
+            subject: 'PAAR Status',
+          },
+        ],
+        from: {
+          email: 'edidiong@redpagesconsulting.com',
+        },
+        content: [
+          {
+            type: 'text/plain',
+            value: PAARStatus,
+          },
+        ],
+      },
+    });
+    
+    //With promise
+sg.API(request)
+.then(response => {
+  console.log(response.statusCode);
+  console.log(response.body);
+  console.log(response.headers);
+})
+.catch(error => {
+  //error is an instance of SendGridError
+  //The full response is attached to error.response
+  console.log(error.response.statusCode);
+});
 
-     const mailOptions = {
-      from: 'eddyblog19@gmail.com', // sender address
-      to: cEmail, // list of receivers
-      subject: 'PAAR Status', // Subject line
-      html: `<p>${PAARStatus}</p>`// plain text body
-    };
-
-    transporter.sendMail(mailOptions, function (err, info) {
-      if(err)
-      res.send(err.message);
-      else
-      res.send("Successful");
-   });
+    
 
   });
 

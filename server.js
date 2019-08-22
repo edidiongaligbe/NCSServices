@@ -80,8 +80,8 @@ app.post("/api/validateTIN/:TIN", (req, res) => {
       to: cEmail,
       from: 'eddyblog19@gmail.com.com',
       subject: 'PAAR Status',
-      text: 'and easy to do anywhere, even with Node.js',
-      html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+      text: ' ',
+    html: `<p>The result of your PAAR query is: <strong>${PAARStatus}</strong></p><br /><p>Thank you for using our service. We are here to serve you better.</p> `,
     };
     sgMail.send(msg);
     

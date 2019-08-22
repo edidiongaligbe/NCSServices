@@ -102,6 +102,7 @@ app.post("/api/validateTIN/:TIN", (req, res) => {
     //With promise
 sg.API(request)
 .then(response => {
+  response.send("It worked.")
   console.log(response.statusCode);
   console.log(response.body);
   console.log(response.headers);

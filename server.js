@@ -154,7 +154,7 @@ app.use(function(req, res, next) {
     
     const msg = {
       to: cEmail,
-      from: 'eddyblog19@gmail.com.com',
+      from: 'eddyblog19@gmail.com',
       subject: 'PAAR Status',
       text: ' ',
     html: `<p>The result of your PAAR query is: <strong>${PAARStatus}</strong></p><br /><p>Thank you for using our service. We are here to serve you better.</p> `,

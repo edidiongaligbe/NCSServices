@@ -129,9 +129,9 @@ app.use(function(req, res, next) {
       res.send( `No record found for the details you supplied.` )
     } else {
 
-      let description = `This is the result of the VIN Verification \r\n
-                            Status: ${items.Status}  \r\n
-                            Model: ${items.Model}  \r\n
+      let description = `This is the result of the VIN Verification \n
+                            Status: ${items.Status}  \n
+                            Model: ${items.Model}  \n
                             Year: ${items.Year}.`;
       res.send(description)
     }

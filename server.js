@@ -84,6 +84,7 @@ app.use(function(req, res, next) {
     }
 
     let CNo = req.params.cno;
+    console.log(CNo);
 
   const collection = client.db("NCS").collection("Before2017");
   collection.findOne({ CNumber: CNo })

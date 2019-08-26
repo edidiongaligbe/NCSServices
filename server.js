@@ -42,36 +42,31 @@ app.use(function(req, res, next) {
 
   //Validate TIN
   app.post("/api/validateTIN/:TIN", (req, res) => {
-    
     client.connect(err => {
       if (err) {
         res.send(err.message);
         return;
       }
-  
+
       let tinNo = req.params.TIN;
-  
-    const collection = client.db("NCS").collection("Importers");
-    collection.findOne({ TIN: tinNo })
-    .then(items => {
 
-      let tinStatus = items.TIN_Status;
-      if (!items) {
-        res.send( `Not Registered` )
-      } else if (tinStatus === "Not Registered" ) {
-        res.send( tinStatus )
-      } else {
-        res.send(items.Email)
-      }
-
-    })
-    .catch(err => {
-      res.send(
-        `Unable to validate Account Number.`
-      );
+      const collection = client.db("NCS").collection("Importers");
+      collection
+        .findOne({ TIN: tinNo })
+        .then(items => {
+          let tinStatus = items.TIN_Status;
+          if (!items) {
+            res.send(`Not Registered`);
+          } else if (tinStatus === "Not Registered") {
+            res.send(tinStatus);
+          } else {
+            res.send(items.Email);
+          }
+        })
+        .catch(err => {
+          res.send(`Unable to validate Account Number.`);
+        });
     });
-    });
-
   });
 
   //Before 2017
@@ -113,6 +108,37 @@ app.use(function(req, res, next) {
 
  //2017 and above
  app.post("/api/2017andAbove/:VIN", (req, res) => {
+   client.connect(err => {
+     if (err) {
+       res.send(err.message);
+       return;
+     }
+
+     let vin = req.params.VIN;
+
+     const collection = client.db("NCS").collection("2017AndBeyond");
+     collection
+       .findOne({ VIN: vin })
+       .then(items => {
+         if (!items) {
+           res.send(`No record found for the details you supplied.`);
+         } else {
+           let description = `This is the result of the VIN Verification.
+                            Status: ${items.Status}  
+                            Model: ${items.Model}  
+                            Year: ${items.Year}.`;
+           res.send(description);
+         }
+       })
+       .catch(err => {
+         res.send(`Unable to query for VIN 2017 and above.`);
+       });
+   });
+ });
+
+ 
+ //Query an agent
+ app.post("/api/Agent", (req, res) => {
     
   client.connect(err => {
     if (err) {
@@ -120,32 +146,54 @@ app.use(function(req, res, next) {
       return;
     }
 
-  let vin = req.params.VIN;
-  vin = vin.trim();
+    let agent = req.body.agentName;
 
-  const collection = client.db("NCS").collection("2017AndBeyond");
-  collection.findOne({ VIN: vin })
-  .then(items => {
+  const collection = client.db("NCS").collection("CustomAgents");
+  collection
+    .findOne({ Name: agent })
+    .then(items => {
+      if (!items) {
+        res.send(`No record found for ${agent}.`);
+      } else {
+        let description = `This is the information we have on the agent.
+                            Name: ${items.Name}   
+                            Custom Command: ${items.Command}.`;
+        res.send(description);
+      }
+    })
+    .catch(err => {
+      res.send(`Unable to query agent.`);
+    });
+  });
+ });
 
-    if (!items) {
-      res.send( `No record found for the details you supplied.` )
-    } else {
-
-      let description = `This is the result of the VIN Verification.
-                            Status: ${items.Status}  
-                            Model: ${items.Model}  
-                            Year: ${items.Year}.`;
-      res.send(description)
+ //Query custom command
+ app.post("/api/Command", (req, res) => {
+    
+  client.connect(err => {
+    if (err) {
+      res.send(err.message);
+      return;
     }
 
-  })
-  .catch(err => {
-    res.send(
-      `Unable to query for VIN 2017 and above.`
-    );
-  });
-  });
+    let command = req.body.command;
 
+  const collection = client.db("NCS").collection("CustomCommand");
+  collection
+    .findOne({ CustomOfficeCode: command })
+    .then(items => {
+      if (!items) {
+        res.send(`No record found for ${command}.`);
+      } else {
+        let description = `This is the list of agents that belong to the command.
+                            Name: ${items.Agent} .`;
+        res.send(description);
+      }
+    })
+    .catch(err => {
+      res.send(`Unable to Custom Command.${err}`);
+    });
+  });
  });
 
   //Send Mail
@@ -156,10 +204,10 @@ app.use(function(req, res, next) {
     
     const msg = {
       to: cEmail,
-      from: 'eddyblog19@gmail.com',
-      subject: 'PAAR Status',
-      text: ' ',
-    html: `<p><strong>${PAARStatus}</strong></p><br /><p>Thank you for using our service. We are here to serve you better.</p> `,
+      from: "capture@redpagesconsulting.com",
+      subject: "PAAR Status",
+      text: " ",
+      html: `<p><strong>${PAARStatus}</strong></p><br /><p>Thank you for using our service. We are here to serve you better.</p> `
     };
     sgMail.send(msg);
 
@@ -169,5 +217,5 @@ app.use(function(req, res, next) {
 
   //start our server
 app.listen(port, () => {
-    console.log(`App listening on http://localhost:${port}`);
-  });
+  console.log(`App listening on http://localhost:${port}`);
+});

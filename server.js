@@ -93,9 +93,9 @@ app.use(function(req, res, next) {
       res.send( `No record found for the details you supplied.` )
     } else {
 
-      let description = `This is the result of the VIN Verification \r\n
-                            Status: ${items.Status}  \r\n
-                            Box 31: ${items.Box31}  \r\n
+      let description = `This is the result of the VIN Verification \\n
+                            Status: ${items.Status}  \n
+                            Box 31: ${items.Box31}  \n
                             For more enquiry, kindly visit a Nigerian Custom Service office closest to you.`;
       res.send(description)
     }

@@ -6,7 +6,8 @@ const client = new MongoClient(
   { useNewUrlParser: true }
 );
 const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+// sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+sgMail.setApiKey('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');
 
 
 
@@ -180,19 +181,22 @@ app.use(function(req, res, next) {
 
   const collection = client.db("NCS").collection("CustomCommand");
   collection
-    .findOne({ CustomOfficeCode: command })
-    .then(items => {
-      if (!items) {
-        res.send(`No record found for ${command}.`);
-      } else {
-        let description = `This is the list of agents that belong to the command.
-                            Name: ${items.Agent} .`;
-        res.send(description);
-      }
-    })
-    .catch(err => {
-      res.send(`Unable to Custom Command.${err}`);
+    .find({ CustomOfficeCode: command }).toArray(function(err, result) {
+      if (err) throw err;
+      console.log(result);
     });
+    // .then(items => {
+    //   if (!items) {
+    //     res.send(`No record found for ${command}.`);
+    //   } else {
+    //     let description = `This is the list of agents that belong to the command.
+    //                         Name: ${items.Agent} .`;
+    //     res.send(description);
+    //   }
+    // })
+    // .catch(err => {
+    //   res.send(`Unable to Custom Command.${err}`);
+    // });
   });
  });
 

@@ -6,8 +6,7 @@ const client = new MongoClient(
   { useNewUrlParser: true }
 );
 const sgMail = require('@sendgrid/mail');
-// sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-sgMail.setApiKey('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');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 
 

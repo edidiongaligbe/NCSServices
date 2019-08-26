@@ -83,8 +83,8 @@ app.use(function(req, res, next) {
       return;
     }
 
-    let CNo = req.params.cno;
-    console.log(CNo);
+  let CNo = req.params.cno;
+  CNo = CNo.trim();
 
   const collection = client.db("NCS").collection("Before2017");
   collection.findOne({ CNumber: CNo })
@@ -92,7 +92,7 @@ app.use(function(req, res, next) {
 
     if (!items) {
       res.send( `No record found for the details you supplied.` )
-    } else {
+    } else { 
 
       let description = `This is the result of the VIN Verification.
                             Status: ${items.Status}  
@@ -120,7 +120,8 @@ app.use(function(req, res, next) {
       return;
     }
 
-    let vin = req.params.VIN;
+  let vin = req.params.VIN;
+  vin = vin.trim();
 
   const collection = client.db("NCS").collection("2017AndBeyond");
   collection.findOne({ VIN: vin })

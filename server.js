@@ -70,41 +70,32 @@ app.use(function(req, res, next) {
   });
 
   //Before 2017
- app.post("/api/before2017/:cno", (req, res) => {
-    
-  client.connect(err => {
-    if (err) {
-      res.send(err.message);
-      return;
-    }
+  app.post("/api/before2017/:cno", (req, res) => {
+    client.connect(err => {
+      if (err) {
+        res.send(err.message);
+        return;
+      }
 
-  let CNo = req.params.cno;
-  CNo = CNo.trim();
+      let CNo = req.params.cno;
+      CNo = CNo.trim();
 
-  const collection = client.db("NCS").collection("Before2017");
-  collection.findOne({ CNumber: CNo })
-  .then(items => {
-
-    if (!items) {
-      res.send( `No record found for the details you supplied.` )
-    } else { 
-
-      let description = `This is the result of the VIN Verification.
-                            Status: ${items.Status}  
-                            Box 31: ${items.Box31}
-                            For more enquiry, kindly visit a Nigerian Custom Service office closest to you.`;
-      res.send(description)
-    }
-
-  })
-  .catch(err => {
-    res.send(
-      `Unable to query for VIN below 2017.`
-    );
+      const collection = client.db("NCS").collection("Before2017");
+      collection
+        .findOne({ CNumber: CNo })
+        .then(items => {
+          if (!items) {
+            res.send(`No record found for the details you supplied.`);
+          } else {
+            let description = `This is the result of the VIN Verification . \nStatus: ${items.Status} \nBox 31: ${items.Box31} \nFor more enquiry, kindly visit a Nigerian Custom Service office closest to you.`;
+            res.send(description);
+          }
+        })
+        .catch(err => {
+          res.send(`Unable to query for VIN below 2017.`);
+        });
+    });
   });
-  });
-
- });
 
  //2017 and above
  app.post("/api/2017andAbove/:VIN", (req, res) => {
@@ -123,10 +114,7 @@ app.use(function(req, res, next) {
          if (!items) {
            res.send(`No record found for the details you supplied.`);
          } else {
-           let description = `This is the result of the VIN Verification.
-                            Status: ${items.Status}  
-                            Model: ${items.Model}  
-                            Year: ${items.Year}.`;
+           let description = `This is the result of the VIN Verification. \n Status: ${items.Status} \n Model: ${items.Model} \n Year: ${items.Year}.`;
            res.send(description);
          }
        })
@@ -155,9 +143,7 @@ app.use(function(req, res, next) {
       if (!items) {
         res.send(`No record found for ${agent}.`);
       } else {
-        let description = `This is the information we have on the agent.
-                            Name: ${items.Name}   
-                            Custom Command: ${items.Command}.`;
+        let description = `This is the information we have on the agent. \n Name: ${items.Name} \nStatus: ${items.Status}.`;
         res.send(description);
       }
     })
@@ -169,34 +155,35 @@ app.use(function(req, res, next) {
 
  //Query custom command
  app.post("/api/Command", (req, res) => {
-    
-  client.connect(err => {
-    if (err) {
-      res.send(err.message);
-      return;
-    }
+   client.connect(err => {
+     if (err) {
+       res.send(err.message);
+       return;
+     }
 
-    let command = req.body.command;
+     let command = req.body.command;
 
-  const collection = client.db("NCS").collection("CustomCommand");
-  collection
-    .find({ CustomOfficeCode: command }).toArray(function(err, result) {
-      if (err) throw err;
-      console.log(result);
-    });
-    // .then(items => {
-    //   if (!items) {
-    //     res.send(`No record found for ${command}.`);
-    //   } else {
-    //     let description = `This is the list of agents that belong to the command.
-    //                         Name: ${items.Agent} .`;
-    //     res.send(description);
-    //   }
-    // })
-    // .catch(err => {
-    //   res.send(`Unable to Custom Command.${err}`);
-    // });
-  });
+     const collection = client.db("NCS").collection("CustomCommand");
+     collection
+       .find({ CustomOfficeCode: command })
+       .toArray(function(err, result) {
+         if (result.length !== 0) {
+           let reply =
+             "This is the list of agents that belong to the command. \n";
+
+           let count = 0;
+           result.forEach(function(element) {
+             count++;
+             reply += `${count}. ${element.Agent} \n`;
+           });
+           res.send(reply);
+
+         } else {
+           res.send(`No record found the command.`);
+         }
+         if (err) throw err;
+       });
+   });
  });
 
   //Send Mail

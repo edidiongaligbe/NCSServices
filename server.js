@@ -161,7 +161,7 @@ app.use(function(req, res, next) {
        return;
      }
 
-     let commandID = req.body.command;
+     let commandID = req.body.commandID;
 
      const collection = client.db("NCS").collection("CustomCommand");
      collection

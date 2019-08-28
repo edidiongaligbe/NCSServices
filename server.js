@@ -170,7 +170,6 @@ app.use(function(req, res, next) {
          if (result.length !== 0) {
            let reply =
              "This is the list of agents that belong to the command. \n";
-
            let count = 0;
            result.forEach(function(element) {
              count++;

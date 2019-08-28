@@ -161,11 +161,11 @@ app.use(function(req, res, next) {
        return;
      }
 
-     let command = req.body.command;
+     let commandID = req.body.command;
 
      const collection = client.db("NCS").collection("CustomCommand");
      collection
-       .find({ CustomOfficeCode: command })
+       .find({ CustomOfficeCode: commandID })
        .toArray(function(err, result) {
          if (result.length !== 0) {
            let reply =

@@ -162,26 +162,12 @@ app.use(function(req, res, next) {
      }
 
      let cID = req.body.commandID;
-     let reply = null; 
-
-     // get the name of the command
-     let collection = client.db("NCS").collection("CustomCommand");
-     collection
-        .findOne({ CustomOfficeCode: cID })
-        .then(items => {
-          if (!items) {
-            console.log('Command code does not exist.')
-          } else {
-            reply = `This is the list of agents that belong to ${items.CustomOfficeName}. \n`;
-          }
-        })
-        .catch(err => {
-          console.log('Unable to get the name of the command')
-        });
-        
-
+     let reply = 'This is the list of agents that belong to '; 
+     let agentList = '';
+     let commandName = '';
+     
       //get the list of agents that belong to the command
-     collection = client.db("NCS").collection("CustomCommand");
+     const collection = client.db("NCS").collection("CustomCommand");
      collection
        .find({ CustomOfficeCode: cID })
        .toArray(function(err, result) {
@@ -189,10 +175,13 @@ app.use(function(req, res, next) {
            let count = 0;
            result.forEach(function(element) {
              count++;
-             reply += `${count}. ${element.Agent} \n`;
+             agentList += `${count}. ${element.Agent} \n`;
+             commandName = element.CustomOfficeName;
            });
+           // concatenate variables to form the reply
+           reply += `${commandName}. \n`;
+           reply += agentList;
            res.send(reply);
-
          } else {
            res.send(`No agents listed for the command you selected. ${cID}`);
          }

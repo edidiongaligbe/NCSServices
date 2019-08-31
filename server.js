@@ -162,15 +162,30 @@ app.use(function(req, res, next) {
      }
 
      let cID = req.body.commandID;
-     // let commandName; == use findOne to get the command name, then find the list of agents
+     let reply = null; 
 
-     const collection = client.db("NCS").collection("CustomCommand");
+     // get the name of the command
+     let collection = client.db("NCS").collection("CustomCommand");
+     collection
+        .findOne({ CustomOfficeCode: cID })
+        .then(items => {
+          if (!items) {
+            console.log('Command code does not exist.')
+          } else {
+            reply = `This is the list of agents that belong to ${items.CustomOfficeName}. \n`;
+          }
+        })
+        .catch(err => {
+          console.log('Unable to get the name of the command')
+        });
+        
+
+      //get the list of agents that belong to the command
+     collection = client.db("NCS").collection("CustomCommand");
      collection
        .find({ CustomOfficeCode: cID })
        .toArray(function(err, result) {
          if (result.length !== 0) {
-           let reply =
-             "This is the list of agents that belong to the command. \n";
            let count = 0;
            result.forEach(function(element) {
              count++;

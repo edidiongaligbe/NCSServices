@@ -162,6 +162,7 @@ app.use(function(req, res, next) {
      }
 
      let cID = req.body.commandID;
+     // let commandName; == use findOne to get the command name, then find the list of agents
 
      const collection = client.db("NCS").collection("CustomCommand");
      collection

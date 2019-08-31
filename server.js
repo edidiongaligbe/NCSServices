@@ -178,7 +178,7 @@ app.use(function(req, res, next) {
            res.send(reply);
 
          } else {
-           res.send(`No agents listed for the command you selected.`);
+           res.send(`No agents listed for the command you selected. ${cID}`);
          }
          if (err) throw err;
        });

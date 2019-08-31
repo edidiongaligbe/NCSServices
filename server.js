@@ -87,7 +87,7 @@ app.use(function(req, res, next) {
           if (!items) {
             res.send(`No record found for the details you supplied.`);
           } else {
-            let description = `This is the result of the VIN Verification . \nStatus: ${items.Status} \nBox 31: ${items.Box31} \nFor more enquiry, kindly visit a Nigerian Custom Service office closest to you.`;
+            let description = `This is the result of the VIN Verification . \nStatus: ${items.Status} \nBox 31: ${items.Box31} \nF\nor more enquiry, kindly visit a Nigerian Custom Service office closest to you.`;
             res.send(description);
           }
         })

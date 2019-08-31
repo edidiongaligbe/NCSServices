@@ -161,11 +161,11 @@ app.use(function(req, res, next) {
        return;
      }
 
-     let commandID = req.body.commandID;
+     let cID = req.body.commandID;
 
      const collection = client.db("NCS").collection("CustomCommand");
      collection
-       .find({ CustomOfficeCode: commandID })
+       .find({ CustomOfficeCode: cID })
        .toArray(function(err, result) {
          if (result.length !== 0) {
            let reply =
@@ -178,7 +178,7 @@ app.use(function(req, res, next) {
            res.send(reply);
 
          } else {
-           res.send(`No record found the command.`);
+           res.send(`No agents listed for the command you selected.`);
          }
          if (err) throw err;
        });

@@ -54,17 +54,20 @@ app.use(function(req, res, next) {
       collection
         .findOne({ TIN: tinNo })
         .then(items => {
-          let tinStatus = items.TIN_Status;
+          
           if (!items) {
             res.send(`Not Registered`);
-          } else if (tinStatus === "Not Registered") {
-            res.send(tinStatus);
           } else {
-            res.send(items.Email);
-          }
+            let tinStatus = items.TIN_Status;
+            if (tinStatus === "Not Registered"){
+              res.send(tinStatus);
+            } else {
+              res.send(items.Email);
+            }            
+          } 
         })
         .catch(err => {
-          res.send(`Unable to validate Account Number.`);
+          res.send(`Unable to validate TIN Number. ${err}`);
         });
     });
   });

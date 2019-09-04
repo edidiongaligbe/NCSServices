@@ -88,7 +88,7 @@ app.use(function(req, res, next) {
         .findOne({ CNumber: CNo })
         .then(items => {
           if (!items) {
-            res.send(`No record found for the details you supplied.`);
+            res.send(`I am sorry but we do not have the VIN you supplied on record. Please check the VIN and try again.`);
           } else {
             let description = `This is the result of the VIN Verification . \nStatus: ${items.Status} \nBox 31: ${items.Box31} \n\nFor more enquiry, kindly visit a Nigerian Custom Service office closest to you.`;
             res.send(description);
@@ -115,7 +115,7 @@ app.use(function(req, res, next) {
        .findOne({ VIN: vin })
        .then(items => {
          if (!items) {
-           res.send(`No record found for the details you supplied.`);
+           res.send(`I am sorry but we do not have the VIN you supplied on record. Please check the VIN and try again.`);
          } else {
            let description = `This is the result of the VIN Verification. \n Status: ${items.Status} \n Model: ${items.Model} \n Year: ${items.Year}.`;
            res.send(description);

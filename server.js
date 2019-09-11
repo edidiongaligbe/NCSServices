@@ -115,7 +115,7 @@ app.use(function(req, res, next) {
        .findOne({ VIN: vin })
        .then(items => {
          if (!items) {
-           res.send(`I am sorry but we do not have the VIN you supplied on record. Please check the VIN and try again.`);
+           res.send(`I am sorry but we do not have the VIN you have supplied on record. Perhaps check the VIN and try again?`);
          } else {
            let description = `This is the result of the VIN Verification. \n Status: ${items.Status} \n Model: ${items.Model} \n Year: ${items.Year}.`;
            res.send(description);

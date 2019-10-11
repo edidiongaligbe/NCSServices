@@ -197,20 +197,30 @@ app.use(function(req, res, next) {
   app.post("/api/sendpaar", (req, res) => {
 
     let PAARStatus = req.body.paar;
-    let cEmail = req.body.cemail;
+    let cEmail = "edidiong@redpagesconsulting.com";
+
+    var today = new Date();
+    var todaysDate =
+      today.getFullYear() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getDate();
     
     const msg = {
       to: cEmail,
       from: "capture@redpagesconsulting.com",
       subject: "PAAR Status",
       text: " ",
-      html: `<p><strong>${PAARStatus}</strong></p><br /><p>Thank you for using our service. We are here to serve you better.</p> `
+      html: `<p>Hello,</p><p>You requested to know the status of your PAAR on ${todaysDate}, the status of your PAAR is: ${PAARStatus}.</p><p>Thank you for using our PAAR Enquiry service.</p>`
     };
     sgMail.send(msg);
 
     res.send(`Successful`);
     
   });
+
+  
 
   //start our server
 app.listen(port, () => {

@@ -81,7 +81,7 @@ app.use(function(req, res, next) {
       }
 
       let CNo = req.params.cno;
-      CNo = CNo.trim();
+      CNo = CNo.trim().replace("/","");
 
       const collection = client.db("NCS").collection("Before2017");
       collection

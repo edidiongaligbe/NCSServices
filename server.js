@@ -82,11 +82,10 @@ app.use(function(req, res, next) {
 
       let CNo = req.params.cno;
       CNo = CNo.trim();
-      let fCNo = CNo.replace("/","");
 
       const collection = client.db("NCS").collection("Before2017");
       collection
-        .findOne({ CNumber: fCNo })
+        .findOne({ CNumber: CNo })
         .then(items => {
           if (!items) {
             res.send(`I am sorry but we do not have the VIN you supplied on record. Please check the VIN and try again.`);

@@ -137,14 +137,14 @@ app.use(function(req, res, next) {
       return;
     }
 
-    let agent = req.body.agentName;
+    let agentn = req.body.agentName;
 
   const collection = client.db("NCS").collection("CustomAgents");
   collection
-    .findOne({ Name: agent })
+    .findOne({ Name: agentn })
     .then(items => {
       if (!items) {
-        res.send(`No record found for ${agent}.`);
+        res.send(`No record found for ${agentn}.`);
       } else {
         let description = `This is the information we have on the agent. \n Name: ${items.Name} \nStatus: ${items.Status}.`;
         res.send(description);

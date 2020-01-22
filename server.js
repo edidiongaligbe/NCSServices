@@ -212,7 +212,7 @@ app.use(function(req, res, next) {
       from: "capture@redpagesconsulting.com",
       subject: "PAAR Status",
       text: " ",
-      html: `<p>Hello,</p><p>You requested to know the status of your PAAR on ${todaysDate}, the status of your PAAR is: ${PAARStatus}.</p><p>Thank you for using our PAAR Enquiry service.</p>`
+      html: `<p>Hello,</p><p>You requested to know the status of your PAAR on ${todaysDate}, ${PAARStatus}.</p><p>Thank you for using our PAAR Enquiry service.</p>`
     };
     sgMail.send(msg);
 

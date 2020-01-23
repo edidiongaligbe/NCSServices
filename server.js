@@ -146,7 +146,7 @@ app.use(function(req, res, next) {
       if (!items) {
         res.send(`No record found for ${agent}.`);
       } else {
-        let description = `This is the information we have on the agent. \n Name: ${items.Name} \nStatus: ${items.Status}.`;
+        let description = `This is the information we have on the agent. \n Name: ${items.AgentName} \nStatus: ${items.Status}.`;
         res.send(description);
       }
     })

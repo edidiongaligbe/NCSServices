@@ -186,7 +186,7 @@ app.use(function(req, res, next) {
            reply += agentList;
            res.send(reply);
          } else {
-           res.send(`No agents listed for the command you selected. ${cID}`);
+           res.send(`No agents listed for the command you selected.`);
          }
          if (err) throw err;
        });

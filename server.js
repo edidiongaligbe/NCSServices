@@ -196,6 +196,7 @@ app.use(function(req, res, next) {
  //SGD query
  app.post("/api/SGD/:TIN", (req, res) => {
 
+  let tin = req.params.TIN;
   if (tin == "1001111111" ){      
 
     res.send(`The Tax Identification Number (TIN) you entered is not registered. Kindly ensure the TIN is registered.`);

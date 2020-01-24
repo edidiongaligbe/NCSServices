@@ -193,6 +193,48 @@ app.use(function(req, res, next) {
    });
  });
 
+ //SGD query
+ app.post("/api/SGD", (req, res) => {
+
+  if (tin == "1001111111" ){      
+
+    res.send(`The Tax Identification Number (TIN) you entered is not registered. Kindly ensure the TIN is registered.`);
+    return;
+    
+  } else {
+    const results = ["ASSESSED", "SELECTED", "CLEARED", "EXITED"];
+
+    const rands = Math.floor(Math.random() * (results.length - 1 - 0 + 1)) + 0;
+    let PAARStatus = results[rands];
+
+    let cEmail = "edidiong@redpagesconsulting.com";
+
+    var today = new Date();
+    var todaysDate =
+      today.getFullYear() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getDate();
+    
+    const msg = {
+      to: cEmail,
+      from: "capture@redpagesconsulting.com",
+      subject: "PAAR Status",
+      text: " ",
+      html: `<p>Hello,</p><p>You requested to know the status of your PAAR on ${todaysDate}, ${PAARStatus}.</p><p>Thank you for using our PAAR Enquiry service.</p>`
+    };
+    sgMail.send(msg);
+
+    res.send("The status of your PAAR enquiry is sent to the email associated with your Tax Identification Number. Thank you for using our PAAR enquiry service.");
+
+  }
+
+  
+    
+     
+});
+
   //Send Mail
   app.post("/api/sendpaar", (req, res) => {
 

@@ -194,13 +194,13 @@ app.use(function(req, res, next) {
  });
 
  //SGD query
- app.post("/api/SGD", (req, res) => {
+ app.post("/api/SGD/:TIN", (req, res) => {
 
   if (tin == "1001111111" ){      
 
     res.send(`The Tax Identification Number (TIN) you entered is not registered. Kindly ensure the TIN is registered.`);
     return;
-    
+
   } else {
     const results = ["ASSESSED", "SELECTED", "CLEARED", "EXITED"];
 

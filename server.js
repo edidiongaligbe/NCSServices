@@ -202,7 +202,7 @@ app.use(function(req, res, next) {
     return;
 
   }else if (tin == "1001111100"){
-    res.send(`We do not have any record of the details you supplied, kindly check and try again.`);
+    res.send(`An SGD with the details you supplied does not exist, kindly the details and try again.`);
     return;
 
   } else {

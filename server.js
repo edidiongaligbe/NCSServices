@@ -239,6 +239,28 @@ app.use(function(req, res, next) {
      
 });
 
+//PAAR query
+app.post("/api/PAAR/:TIN", (req, res) => {
+
+  let tin = req.params.TIN;
+  
+  if (tin == "1001111111" ){  
+    const results = ['APPROVED', 'ASSESSED',
+        'REGISTERED', 'SGD LOCKED'];
+
+    const rands = Math.floor(Math.random() * ((results.length - 1) - 0 + 1)) + 0;
+    let reply = `Your PAAR status is currently:  ${results[rands]}`;
+    res.send(reply);
+    return;
+
+  }else {
+    res.send(`A PAAR with the details you supplied does not exist, kindly the details and try again.`);
+    return;
+
+  } 
+     
+});
+
   //Send Mail
   app.post("/api/sendpaar", (req, res) => {
 

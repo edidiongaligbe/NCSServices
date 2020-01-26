@@ -193,8 +193,8 @@ app.use(function(req, res, next) {
    });
  });
 
- //SGD query
- app.post("/api/SGD/:TIN", (req, res) => {
+ //PAAR query
+ app.post("/api/PAAR/:TIN", (req, res) => {
 
   let tin = req.params.TIN;
   if (tin == "1001111111" ){  
@@ -202,11 +202,11 @@ app.use(function(req, res, next) {
     return;
 
   }else if (tin == "1001111100"){
-    res.send(`An SGD with the details you supplied does not exist, kindly the details and try again.`);
+    res.send(`A PAAR with the details you supplied does not exist, kindly the details and try again.`);
     return;
 
   } else {
-    const results = ["ASSESSED", "SELECTED", "CLEARED", "EXITED"];
+    const results = ["ASSESSED", "APPROVED", "REGISTERED", "SGD LOCKED"];
 
     const rands = Math.floor(Math.random() * (results.length - 1 - 0 + 1)) + 0;
     let PAARStatus = results[rands];
@@ -233,20 +233,15 @@ app.use(function(req, res, next) {
     res.send("The status of your PAAR enquiry is sent to the email associated with your Tax Identification Number. Thank you for using our PAAR enquiry service.");
 
   }
-
-  
-    
-     
 });
 
-//PAAR query
-app.post("/api/PAAR/:TIN", (req, res) => {
+//SGD query
+app.post("/api/SGD/:TIN", (req, res) => {
 
   let tin = req.params.TIN;
-  
   if (tin == "1001111111" ){  
-    const results = ['APPROVED', 'ASSESSED',
-        'REGISTERED', 'SGD LOCKED'];
+    const results = ['SELECTED', 'ASSESSED',
+        'CLEARED', 'EXITED'];
 
     const rands = Math.floor(Math.random() * ((results.length - 1) - 0 + 1)) + 0;
     let reply = `Your PAAR status is currently:  ${results[rands]}`;
@@ -254,7 +249,7 @@ app.post("/api/PAAR/:TIN", (req, res) => {
     return;
 
   }else {
-    res.send(`A PAAR with the details you supplied does not exist, kindly the details and try again.`);
+    res.send(`An SGD with the details you supplied does not exist, kindly the details and try again.`);
     return;
 
   } 

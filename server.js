@@ -257,9 +257,9 @@ app.post("/api/SGD/:TIN", (req, res) => {
 });
 
   //Send Mail
-  app.post("/api/sendpaar/:PAARStatus", (req, res) => {
+  app.post("/api/sendpaar", (req, res) => {
 
-    let fromPAAR = req.body.PAARStatus;
+    let fromPAAR = req.body.paar;
     let cEmail = "edidiong@redpagesconsulting.com";
 
     var today = new Date();

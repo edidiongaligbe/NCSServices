@@ -198,11 +198,11 @@ app.use(function(req, res, next) {
 
   let tin = req.params.TIN;
   if (tin == "1001111111" ){  
-    res.send(`The Tax Identification Number (TIN) you entered is not registered. Kindly ensure the TIN is registered.`);
+    res.send("The Tax Identification Number (TIN) you entered is not registered. Kindly ensure the TIN is registered.");
     return;
 
   }else if (tin == "1001111100"){
-    res.send(`A PAAR with the details you supplied does not exist, kindly the details and try again.`);
+    res.send("A PAAR with the details you supplied does not exist, kindly the details and try again.");
     return;
 
   } else {
@@ -244,12 +244,12 @@ app.post("/api/SGD/:TIN", (req, res) => {
         'CLEARED', 'EXITED'];
 
     const rands = Math.floor(Math.random() * ((results.length - 1) - 0 + 1)) + 0;
-    let reply = `Your PAAR status is currently:  ${results[rands]}`;
+    let reply =  `Your PAAR status is currently:  ${results[rands]}`;
     res.send(reply);
     return;
 
   }else {
-    res.send(`An SGD with the details you supplied does not exist, kindly the details and try again.`);
+    res.send("An SGD with the details you supplied does not exist, kindly the details and try again.");
     return;
 
   } 

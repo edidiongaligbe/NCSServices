@@ -257,9 +257,9 @@ app.post("/api/SGD/:TIN", (req, res) => {
 });
 
   //Send Mail
-  app.post("/api/sendpaar", (req, res) => {
+  app.post("/api/sendpaar/:PAARStatus", (req, res) => {
 
-    let PAARStatus = req.body.paar;
+    let fromPAAR = req.body.PAARStatus;
     let cEmail = "edidiong@redpagesconsulting.com";
 
     var today = new Date();
@@ -275,7 +275,7 @@ app.post("/api/SGD/:TIN", (req, res) => {
       from: "capture@redpagesconsulting.com",
       subject: "PAAR Status",
       text: " ",
-      html: `<p>Hello,</p><p>You requested to know the status of your PAAR on ${todaysDate}, ${PAARStatus}.</p><p>Thank you for using our PAAR Enquiry service.</p>`
+      html: `<p>Hello,</p><p>You requested to know the status of your PAAR on ${todaysDate}, The status of your PAAR is <b> ${fromPAAR}</b>.<p>Thank you for using our PAAR Enquiry service.</p>`
     };
     sgMail.send(msg);
 

@@ -193,68 +193,7 @@ app.use(function(req, res, next) {
    });
  });
 
- //PAAR query
- app.post("/api/PAAR/:TIN", (req, res) => {
 
-  let tin = req.params.TIN;
-  if (tin == "1001111111" ){  
-    res.send("The Tax Identification Number (TIN) you entered is not registered. Kindly ensure the TIN is registered.");
-    return;
-
-  }else if (tin == "1001111100"){
-    res.send("A PAAR with the details you supplied does not exist, kindly the details and try again.");
-    return;
-
-  } else {
-    const results = ["ASSESSED", "APPROVED", "REGISTERED", "SGD LOCKED"];
-
-    const rands = Math.floor(Math.random() * (results.length - 1 - 0 + 1)) + 0;
-    let PAARStatus = results[rands];
-
-    let cEmail = "edidiong@redpagesconsulting.com";
-
-    var today = new Date();
-    var todaysDate =
-      today.getFullYear() +
-      "-" +
-      (today.getMonth() + 1) +
-      "-" +
-      today.getDate();
-    
-    const msg = {
-      to: cEmail,
-      from: "capture@redpagesconsulting.com",
-      subject: "PAAR Status",
-      text: " ",
-      html: `<p>Hello,</p><p>You requested to know the status of your PAAR on ${todaysDate},The status of your PAAR is <b>${PAARStatus}</b><p>Thank you for using our PAAR Enquiry service.</p>`
-    };
-    sgMail.send(msg);
-
-    res.send("The status of your PAAR enquiry is sent to the email associated with your Tax Identification Number. Thank you for using our PAAR enquiry service.");
-
-  }
-});
-
-//SGD query
-app.post("/api/SGD/:TIN", (req, res) => {
-
-  let tin = req.params.TIN;
-  if (tin == "1001111111" ){  
-    const results = ['SELECTED', 'ASSESSED',
-        'CLEARED', 'EXITED'];
-
-    const rands = Math.floor(Math.random() * ((results.length - 1) - 0 + 1)) + 0;
-    let reply =  `Your PAAR status is currently:  ${results[rands]}`;
-    res.send(reply);
-    return;
-
-  }else {
-    res.send("An SGD with the details you supplied does not exist, kindly the details and try again.");
-    return;
-
-  } 
-     
-});
 
   //Send Mail
   app.post("/api/sendpaar", (req, res) => {

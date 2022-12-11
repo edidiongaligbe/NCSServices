@@ -19,7 +19,7 @@
   "homepage": "https://github.com/edidiongaligbe/NCSServices#readme",
   "dependencies": {
     "@sendgrid/mail": "^6.4.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "mongodb": "^3.3.0",
     "sendgrid": "^5.2.3"
   }
